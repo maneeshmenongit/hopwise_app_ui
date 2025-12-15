@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hopwise — Restaurant Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sunset-red: #FF6B6B;
+            --sunset-orange: #FF8E53;
+            --sunset-gold: #FFA500;
+            --sky-blue: #87CEEB;
+            --dark: #1E1E2E;
+            --gray-50: #F8F9FA;
+            --gray-100: #E9ECEF;
+            --gray-200: #DEE2E6;
+            --gray-500: #6C757D;
+            --gray-700: #495057;
+            --white: #FFFFFF;
+            --success: #10B981;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #111;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        
+        .phone {
+            background: #1a1a1a;
+            border-radius: 52px;
+            padding: 12px;
+            box-shadow: 0 0 0 2px #333, 0 30px 100px rgba(0,0,0,0.6);
+        }
+        
+        .screen {
+            background: var(--white);
+            border-radius: 42px;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        /* Hero Image */
+        .hero-image {
+            height: 280px;
+            background: linear-gradient(135deg, #FFE5B4, #FFB347);
+            position: relative;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 50px 16px 16px;
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), transparent);
+        }
+        
+        .hero-btn {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .hero-badge {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .badge {
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Content */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+            margin-top: -24px;
+            background: var(--white);
+            border-radius: 24px 24px 0 0;
+            position: relative;
+        }
+        
+        .content::-webkit-scrollbar { width: 0; }
+        
+        /* Header Info */
+        .place-header {
+            margin-bottom: 16px;
+        }
+        
+        .place-name {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+        
+        .place-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--gray-500);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .place-meta .dot {
+            width: 4px;
+            height: 4px;
+            background: var(--gray-200);
+            border-radius: 50%;
+        }
+        
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .rating-big {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #FFF8E1;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #F59E0B;
+        }
+        
+        .reviews-link {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--sunset-orange);
+            cursor: pointer;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 14px 12px;
+            background: var(--gray-50);
+            border-radius: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: var(--gray-100);
+        }
+        
+        .action-btn.primary {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white;
+        }
+        
+        .action-btn .icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .action-btn .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-700);
+        }
+        
+        .action-btn.primary .label {
+            color: white;
+        }
+        
+        /* Info Cards */
+        .info-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+        
+        .info-card {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 14px;
+        }
+        
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-row .icon {
+            width: 36px;
+            height: 36px;
+            background: var(--white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .info-row .text {
+            flex: 1;
+        }
+        
+        .info-row .label {
+            font-size: 12px;
+            color: var(--gray-500);
+            font-weight: 600;
+        }
+        
+        .info-row .value {
+            font-size: 14px;
+            color: var(--dark);
+            font-weight: 700;
+        }
+        
+        .info-row .value.success {
+            color: var(--success);
+        }
+        
+        .info-row .action {
+            font-size: 18px;
+            color: var(--gray-500);
+            cursor: pointer;
+        }
+        
+        /* Highlights */
+        .highlights {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .highlight {
+            padding: 8px 14px;
+            background: var(--gray-50);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gray-700);
+        }
+        
+        /* Photos */
+        .photos-scroll {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            padding-bottom: 4px;
+        }
+        
+        .photos-scroll::-webkit-scrollbar { display: none; }
+        
+        .photo {
+            width: 120px;
+            height: 90px;
+            background: linear-gradient(135deg, #E8F5E9, #A5D6A7);
+            border-radius: 14px;
+            flex-shrink: 0;
+        }
+        
+        .photo:nth-child(2) { background: linear-gradient(135deg, #FCE4EC, #F48FB1); }
+        .photo:nth-child(3) { background: linear-gradient(135deg, #E3F2FD, #90CAF9); }
+        .photo:nth-child(4) { background: linear-gradient(135deg, #FFF3E0, #FFCC80); }
+        
+        /* Reviews Preview */
+        .review-card {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .review-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+        }
+        
+        .review-info .name {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+        
+        .review-info .date {
+            font-size: 11px;
+            color: var(--gray-500);
+        }
+        
+        .review-rating {
+            margin-left: auto;
+            font-size: 12px;
+            font-weight: 800;
+            color: #F59E0B;
+        }
+        
+        .review-text {
+            font-size: 13px;
+            color: var(--gray-700);
+            line-height: 1.5;
+        }
+        
+        /* Bottom CTA */
+        .bottom-cta {
+            padding: 16px;
+            background: var(--white);
+            border-top: 1px solid var(--gray-100);
+            display: flex;
+            gap: 12px;
+        }
+        
+        .cta-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .cta-btn.secondary {
+            background: var(--gray-50);
+            color: var(--dark);
+        }
+        
+        .cta-btn.primary {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white;
+            box-shadow: 0 4px 16px rgba(255,107,107,0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone">
+        <div class="screen">
+        
+            <!-- Hero Image -->
+            <div class="hero-image">
+                <div class="hero-overlay">
+                    <div class="hero-btn">←</div>
+                    <div class="hero-actions">
+                        <div class="hero-btn">🤍</div>
+                        <div class="hero-btn">↗️</div>
+                    </div>
+                </div>
+                <div class="hero-badge">
+                    <span class="badge">🏆 #1 Pizza in NYC</span>
+                    <span class="badge">📸 2.3k photos</span>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+            
+                <!-- Header -->
+                <div class="place-header">
+                    <h1 class="place-name">Joe's Pizza</h1>
+                    <div class="place-meta">
+                        <span>Italian</span>
+                        <span class="dot"></span>
+                        <span>Pizza</span>
+                        <span class="dot"></span>
+                        <span>$</span>
+                        <span class="dot"></span>
+                        <span>0.3 mi</span>
+                    </div>
+                    <div class="rating-row">
+                        <span class="rating-big">⭐ 4.8</span>
+                        <span class="reviews-link">2,347 reviews →</span>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="action-btn primary">
+                        <div class="icon">📍</div>
+                        <div class="label">Directions</div>
+                    </div>
+                    <div class="action-btn">
+                        <div class="icon">📞</div>
+                        <div class="label">Call</div>
+                    </div>
+                    <div class="action-btn">
+                        <div class="icon">🌐</div>
+                        <div class="label">Website</div>
+                    </div>
+                    <div class="action-btn">
+                        <div class="icon">📋</div>
+                        <div class="label">Menu</div>
+                    </div>
+                </div>
+                
+                <!-- Highlights -->
+                <div class="highlights">
+                    <span class="highlight">🔥 Trending</span>
+                    <span class="highlight">👥 Popular with tourists</span>
+                    <span class="highlight">⚡ Quick service</span>
+                    <span class="highlight">💳 Cash only</span>
+                </div>
+                
+                <!-- Info Card -->
+                <div class="info-section">
+                    <h3 class="section-title">Information</h3>
+                    <div class="info-card">
+                        <div class="info-row">
+                            <div class="icon">🕐</div>
+                            <div class="text">
+                                <div class="label">Hours</div>
+                                <div class="value success">Open · Closes 4:00 AM</div>
+                            </div>
+                            <span class="action">›</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="icon">📍</div>
+                            <div class="text">
+                                <div class="label">Address</div>
+                                <div class="value">7 Carmine St, New York</div>
+                            </div>
+                            <span class="action">›</span>
+                        </div>
+                        <div class="info-row">
+                            <div class="icon">📞</div>
+                            <div class="text">
+                                <div class="label">Phone</div>
+                                <div class="value">(212) 366-1182</div>
+                            </div>
+                            <span class="action">›</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Photos -->
+                <div class="info-section">
+                    <h3 class="section-title">Photos</h3>
+                    <div class="photos-scroll">
+                        <div class="photo"></div>
+                        <div class="photo"></div>
+                        <div class="photo"></div>
+                        <div class="photo"></div>
+                    </div>
+                </div>
+                
+                <!-- Reviews -->
+                <div class="info-section">
+                    <h3 class="section-title">Reviews</h3>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">M</div>
+                            <div class="review-info">
+                                <div class="name">Mike R.</div>
+                                <div class="date">2 days ago</div>
+                            </div>
+                            <span class="review-rating">⭐ 5.0</span>
+                        </div>
+                        <p class="review-text">Best pizza in NYC, hands down! The classic slice is perfection. Worth the wait in line.</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">S</div>
+                            <div class="review-info">
+                                <div class="name">Sarah L.</div>
+                                <div class="date">1 week ago</div>
+                            </div>
+                            <span class="review-rating">⭐ 4.5</span>
+                        </div>
+                        <p class="review-text">Iconic NYC experience. Cash only so come prepared!</p>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Bottom CTA -->
+            <div class="bottom-cta">
+                <div class="cta-btn secondary">🚗 Get a Ride</div>
+                <div class="cta-btn primary">📍 Directions</div>
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>
