@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hopwise — Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sunset-red: #FF6B6B;
+            --sunset-orange: #FF8E53;
+            --sunset-gold: #FFA500;
+            --sky-blue: #87CEEB;
+            --dark: #1E1E2E;
+            --gray-50: #F8F9FA;
+            --gray-100: #E9ECEF;
+            --gray-200: #DEE2E6;
+            --gray-500: #6C757D;
+            --gray-700: #495057;
+            --white: #FFFFFF;
+            --success: #10B981;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #111;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        
+        .phone {
+            background: #1a1a1a;
+            border-radius: 52px;
+            padding: 12px;
+            box-shadow: 0 0 0 2px #333, 0 30px 100px rgba(0,0,0,0.6);
+        }
+        
+        .screen {
+            background: var(--gray-50);
+            border-radius: 42px;
+            width: 375px;
+            height: 812px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Status Bar */
+        .status-bar {
+            padding: 16px 28px 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 700;
+            background: var(--white);
+        }
+        
+        /* Profile Header */
+        .profile-header {
+            background: var(--white);
+            padding: 16px 20px 24px;
+            text-align: center;
+        }
+        
+        .avatar-large {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            font-weight: 900;
+            margin: 0 auto 12px;
+            position: relative;
+        }
+        
+        .avatar-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            cursor: pointer;
+        }
+        
+        .profile-name {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+        
+        .profile-email {
+            font-size: 13px;
+            color: var(--gray-500);
+            font-weight: 600;
+        }
+        
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            padding: 16px 20px;
+            background: var(--white);
+            border-top: 1px solid var(--gray-100);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--dark);
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--gray-500);
+            font-weight: 600;
+        }
+        
+        /* Content */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+        }
+        
+        .content::-webkit-scrollbar { width: 0; }
+        
+        /* Premium Banner */
+        .premium-banner {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53, #FFA500);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .premium-banner:hover {
+            transform: scale(1.02);
+        }
+        
+        .premium-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .premium-text h3 {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        
+        .premium-text p {
+            font-size: 12px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+        
+        .premium-arrow {
+            margin-left: auto;
+            font-size: 20px;
+        }
+        
+        /* Menu Section */
+        .menu-section {
+            background: var(--white);
+            border-radius: 20px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        
+        .menu-title {
+            padding: 14px 16px 8px;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .menu-item:hover {
+            background: var(--gray-50);
+        }
+        
+        .menu-item .icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gray-50);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .menu-item .text {
+            flex: 1;
+        }
+        
+        .menu-item .label {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .menu-item .sublabel {
+            font-size: 12px;
+            color: var(--gray-500);
+            font-weight: 600;
+        }
+        
+        .menu-item .arrow {
+            font-size: 16px;
+            color: var(--gray-500);
+        }
+        
+        .menu-item .toggle {
+            width: 48px;
+            height: 28px;
+            background: var(--success);
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .menu-item .toggle::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            right: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .menu-item .toggle.off {
+            background: var(--gray-200);
+        }
+        
+        .menu-item .toggle.off::after {
+            right: auto;
+            left: 2px;
+        }
+        
+        /* Logout */
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            background: var(--white);
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--sunset-red);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .logout-btn:hover {
+            background: #FEE2E2;
+        }
+        
+        /* App Version */
+        .app-version {
+            text-align: center;
+            padding: 16px;
+            font-size: 12px;
+            color: var(--gray-500);
+            font-weight: 600;
+        }
+        
+        /* Bottom Nav */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 20px 32px;
+            background: var(--white);
+            border-top: 1px solid var(--gray-100);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--gray-500);
+            cursor: pointer;
+        }
+        
+        .nav-item .icon { font-size: 20px; }
+        .nav-item.active { color: var(--sunset-orange); }
+    </style>
+</head>
+<body>
+
+    <div class="phone">
+        <div class="screen">
+        
+            <div class="status-bar">
+                <span>9:41</span>
+                <span>📶 🔋</span>
+            </div>
+            
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="avatar-large">
+                    A
+                    <div class="avatar-badge">📷</div>
+                </div>
+                <h1 class="profile-name">Alex Johnson</h1>
+                <p class="profile-email">alex.johnson@email.com</p>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Trips</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">48</div>
+                    <div class="stat-label">Saved</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">$127</div>
+                    <div class="stat-label">Saved $</div>
+                </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+            
+                <!-- Premium Banner -->
+                <div class="premium-banner">
+                    <div class="premium-icon">👑</div>
+                    <div class="premium-text">
+                        <h3>Upgrade to Premium</h3>
+                        <p>Unlock trip planning & more for $9.99/mo</p>
+                    </div>
+                    <span class="premium-arrow">→</span>
+                </div>
+                
+                <!-- Account Section -->
+                <div class="menu-section">
+                    <div class="menu-title">Account</div>
+                    <div class="menu-item">
+                        <div class="icon">👤</div>
+                        <div class="text">
+                            <div class="label">Edit Profile</div>
+                        </div>
+                        <span class="arrow">›</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="icon">💳</div>
+                        <div class="text">
+                            <div class="label">Payment Methods</div>
+                            <div class="sublabel">Visa •••• 4242</div>
+                        </div>
+                        <span class="arrow">›</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="icon">🔔</div>
+                        <div class="text">
+                            <div class="label">Notifications</div>
+                        </div>
+                        <div class="toggle"></div>
+                    </div>
+                </div>
+                
+                <!-- Preferences Section -->
+                <div class="menu-section">
+                    <div class="menu-title">Preferences</div>
+                    <div class="menu-item">
+                        <div class="icon">📍</div>
+                        <div class="text">
+                            <div class="label">Home Location</div>
+                            <div class="sublabel">New York, NY</div>
+                        </div>
+                        <span class="arrow">›</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="icon">💵</div>
+                        <div class="text">
+                            <div class="label">Currency</div>
+                            <div class="sublabel">USD ($)</div>
+                        </div>
+                        <span class="arrow">›</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="icon">🌙</div>
+                        <div class="text">
+                            <div class="label">Dark Mode</div>
+                        </div>
+                        <div class="toggle off"></div>
+                    </div>
+                </div>
+                
+                <!-- Support Section -->
+                <div class="menu-section">
+                    <div class="menu-title">Support</div>
+                    <div class="menu-item">
+                        <div class="icon">❓</div>
+                        <div class="text">
+                            <div class="label">Help Center</div>
+                        </div>
+                        <span class="arrow">›</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="icon">💬</div>
+                        <div class="text">
+                            <div class="label">Contact Us</div>
+                        </div>
+                        <span class="arrow">›</span>
+                    </div>
+                    <div class="menu-item">
+                        <div class="icon">⭐</div>
+                        <div class="text">
+                            <div class="label">Rate the App</div>
+                        </div>
+                        <span class="arrow">›</span>
+                    </div>
+                </div>
+                
+                <!-- Logout -->
+                <div class="logout-btn">
+                    🚪 Log Out
+                </div>
+                
+                <!-- Version -->
+                <div class="app-version">
+                    Hopwise v1.0.0
+                </div>
+                
+            </div>
+            
+            <!-- Bottom Nav -->
+            <div class="bottom-nav">
+                <div class="nav-item"><div class="icon">🏠</div>Home</div>
+                <div class="nav-item"><div class="icon">🔍</div>Search</div>
+                <div class="nav-item"><div class="icon">📍</div>Trips</div>
+                <div class="nav-item"><div class="icon">❤️</div>Saved</div>
+                <div class="nav-item active"><div class="icon">👤</div>Profile</div>
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+</html>
